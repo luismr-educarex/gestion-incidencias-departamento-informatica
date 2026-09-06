@@ -20,12 +20,16 @@ El editor permite arrastrar activos y ajustar X/Y, ancho, alto y rotación. La g
 
 Ruta: `.../exec?modo=editor&aula=A01`.
 
-La rama `develop` ya contiene el enrutamiento del editor, capa de repositorio de Sheets, servicio de alta de incidencias, persistencia del editor y manifiesto Apps Script.
+La rama `develop` contiene ya el enrutamiento del editor, la capa de acceso a Google Sheets, el servicio de alta de incidencias, la persistencia del editor y el manifiesto Apps Script.
 
 ## Seguridad pendiente
 
 El editor exige actualmente una sesión Google identificable. Antes de producción se sustituirá por una lista explícita de gestores autorizados. El manifiesto sigue siendo de prototipo y debe endurecerse según la configuración Google Workspace del centro.
 
+## Estado
+
+La V0.3 sigue en PR borrador. No debe fusionarse a `main` hasta completar el bootstrap inicial de Sheets, incorporar la interfaz docente completa al repositorio y validar los mapas físicos.
+
 ## Siguiente hito
 
-Completar el bootstrap de la hoja de cálculo con los mapas reales y construir el panel de jefatura para las ocho aulas.
+Bootstrap de las 8 aulas + panel de jefatura.
