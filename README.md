@@ -2,7 +2,7 @@
 
 **Gestión de Incidencias del Departamento de Informática**.
 
-Aplicación para registrar y gestionar incidencias de las aulas de informática mediante QR, mapa interactivo del aula y Google Apps Script/Sheets.
+Aplicación para registrar y gestionar incidencias de las aulas de informática mediante QR, mapa interactivo y Google Apps Script/Sheets.
 
 ## Alcance
 
@@ -16,10 +16,16 @@ Aplicación para registrar y gestionar incidencias de las aulas de informática 
 
 ## V0.3 — Editor visual de mapas
 
-El editor permite arrastrar activos y ajustar X/Y, ancho, alto y rotación. La geometría se persiste en la hoja `ACTIVOS`.
+El editor permite arrastrar activos y ajustar X/Y, ancho, alto y rotación. La geometría se persiste en `ACTIVOS`.
 
-Ruta prevista: `.../exec?modo=editor&aula=A01`.
+Ruta: `.../exec?modo=editor&aula=A01`.
 
-## Estado del repositorio
+La rama `develop` ya contiene el enrutamiento del editor, capa de repositorio de Sheets, servicio de alta de incidencias, persistencia del editor y manifiesto Apps Script.
 
-La rama `develop` contiene el trabajo de la V0.3. La aplicación Apps Script completa se está incorporando de forma incremental y no debe desplegarse desde `main` hasta integrar y revisar la base funcional.
+## Seguridad pendiente
+
+El editor exige actualmente una sesión Google identificable. Antes de producción se sustituirá por una lista explícita de gestores autorizados. El manifiesto sigue siendo de prototipo y debe endurecerse según la configuración Google Workspace del centro.
+
+## Siguiente hito
+
+Completar el bootstrap de la hoja de cálculo con los mapas reales y construir el panel de jefatura para las ocho aulas.
