@@ -1,3 +1,14 @@
-function doGet(e){const p=(e&&e.parameter)||{},aula=String(p.aula||'').trim().toUpperCase(),modo=String(p.modo||'').trim().toLowerCase();const t=HtmlService.createTemplateFromFile(modo==='editor'?'MapEditor':'Index');t.appName=APP.NAME;t.appVersion=APP.VERSION;t.aula=aula;return t.evaluate().setTitle(modo==='editor'?`GIDI · Editor ${aula}`:APP.NAME).addMetaTag('viewport','width=device-width, initial-scale=1, viewport-fit=cover').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)}
+function doGet(e){
+  const p=(e&&e.parameter)||{};
+  const aula=String(p.aula||'').trim().toUpperCase();
+  const modo=String(p.modo||'').trim().toLowerCase();
+  let view='Index';
+  if(modo==='editor') view='MapEditor';
+  else if(modo==='panel'||(!aula&&modo!== 'editor')) view='Dashboard';
+  const t=HtmlService.createTemplateFromFile(view);
+  t.appName=APP.NAME;t.appVersion=APP.VERSION;t.aula=aula;
+  const title=view==='Dashboard'?'GIDI · Panel':view==='MapEditor'?`GIDI · Editor ${aula}`:APP.NAME;
+  return t.evaluate().setTitle(title).addMetaTag('viewport','width=device-width, initial-scale=1, viewport-fit=cover').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
 function include_(f){return HtmlService.createHtmlOutputFromFile(f).getContent()}
 function apiBootstrap(code){const aula=getAulaByCode_(code);if(!aula)return{ok:false,message:'El código de aula no existe o está desactivado.'};const assets=getActivosByAula_(code),incs=getOpenIncidentsByAula_(code),by={};incs.forEach(i=>(by[i.activo]||=[]).push(i));return{ok:true,app:{name:APP.NAME,version:APP.VERSION},aula,assets:assets.map(a=>({...a,incidencias:by[a.codigo]||[]})),categories:getCategories_(),priorities:APP.PRIORITIES}}
