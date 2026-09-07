@@ -1,5 +1,5 @@
 function apiClassrooms(){
-  const user=getCurrentUser_();
+  const user=requireRegisteredUser_();
   const rooms=getSheetRows_(APP.SHEETS.AULAS)
     .filter(function(row){return String(row.ACTIVA||'SI').toUpperCase()!=='NO';})
     .map(function(row){

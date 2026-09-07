@@ -1,10 +1,12 @@
 function apiEditorBootstrap(aulaCode) {
+  const user = requireManager_();
   const aula = getAulaByCode_(aulaCode);
   if (!aula) throw new Error('Aula no encontrada.');
-  return { ok: true, aula, assets: getActivosByAula_(aulaCode) };
+  return { ok: true, user, aula, assets: getActivosByAula_(aulaCode) };
 }
 
 function apiSaveMapLayout(aulaCode, assets) {
+  requireManager_();
   const aula = String(aulaCode || '').trim().toUpperCase();
   if (!getAulaByCode_(aula)) throw new Error('Aula no encontrada.');
   if (!Array.isArray(assets) || !assets.length) throw new Error('No hay elementos que guardar.');

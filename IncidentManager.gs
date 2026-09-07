@@ -11,7 +11,8 @@ function apiListIncidents(filters){
 }
 function apiManagerBootstrap(){
   const user=requireManager_();
-  const users=getSheetRows_(APP.SHEETS.USUARIOS).filter(r=>String(r.ACTIVO||'SI').toUpperCase()!=='NO'&&['GESTOR','ADMIN'].includes(String(r.ROL).toUpperCase())).map(r=>({email:String(r.EMAIL),nombre:String(r.NOMBRE||r.EMAIL)}));
+  const users=getSheetRows_(APP.SHEETS.USUARIOS).filter(r=>String(r.ACTIVO||'SI').toUpperCase()!=='NO'&&[GIDI_ROLES.SUPERVISOR,GIDI_ROLES.ADMIN].includes(normalizeRole_(r.ROL))).map(r=>({email:String(r.EMAIL),nombre:String(r.NOMBRE||r.EMAIL)}));
+  if(!users.some(r=>String(r.email).toLowerCase()===GIDI_INITIAL_ADMIN))users.unshift({email:GIDI_INITIAL_ADMIN,nombre:'Luis Martínez Redondo'});
   const aulas=getSheetRows_(APP.SHEETS.AULAS).filter(r=>String(r.ACTIVA).toUpperCase()!=='NO').map(r=>({codigo:String(r.CODIGO),nombre:String(r.NOMBRE)}));
   return {ok:true,user,users,aulas,states:['NUEVA','ASIGNADA','EN_PROCESO','RESUELTA','CERRADA'],priorities:APP.PRIORITIES};
 }

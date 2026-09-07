@@ -8,7 +8,7 @@ function setupApplication(){
   createSheet_(ss,APP.SHEETS.CATEGORIAS,['CATEGORIA','ACTIVA']);
   createSheet_(ss,APP.SHEETS.CONFIG,['CLAVE','VALOR']);
   createSheet_(ss,APP.SHEETS.USUARIOS,['EMAIL','NOMBRE','ROL','ACTIVO']);
-  seedBasicData_(ss); seedAssetsFromRecoveredMaps_(ss);
+  seedBasicData_(ss); seedAssetsFromRecoveredMaps_(ss); addInitialAdmin(GIDI_INITIAL_ADMIN,'Luis Martínez Redondo');
   return {spreadsheetId:ss.getId(),url:ss.getUrl(),assets:ss.getSheetByName(APP.SHEETS.ACTIVOS).getLastRow()-1};
 }
 function createSheet_(ss,name,headers){let sh=ss.getSheetByName(name)||ss.insertSheet(name);sh.clear();sh.getRange(1,1,1,headers.length).setValues([headers]);sh.setFrozenRows(1);sh.getRange(1,1,1,headers.length).setFontWeight('bold');sh.autoResizeColumns(1,headers.length);return sh;}

@@ -1,0 +1,14 @@
+<script>
+(()=>{
+  const root=document.getElementById('tracking'),id=root.dataset.id,message=document.getElementById('message'),content=document.getElementById('content');
+  const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  const pretty=value=>String(value||'').toLowerCase().replaceAll('_',' ').replace(/\b\w/g,char=>char.toUpperCase());
+  function fail(error){message.textContent=error?.message||String(error);message.classList.remove('hidden');message.classList.add('error');}
+  function render(data){
+    const incident=data.incident;document.getElementById('title').textContent=`Incidencia ${incident.id}`;
+    content.innerHTML=`<section class="panel"><div class="eyebrow">Estado actual</div><h2>${esc(incident.aula)} · ${esc(incident.activo)}</h2><span class="status">${pretty(incident.estado)}</span><div class="summary-grid"><div class="detail"><span>Fecha de alta</span><strong>${esc(incident.fecha)}</strong></div><div class="detail"><span>Prioridad</span><strong>${pretty(incident.prioridad)}</strong></div><div class="detail"><span>Categoría</span><strong>${esc(incident.categoria)}</strong></div><div class="detail"><span>Responsable</span><strong>${esc(incident.responsable||'Pendiente de asignación')}</strong></div></div><h3>Descripción</h3><p class="description">${esc(incident.descripcion)}</p>${incident.solucion?`<h3>Solución aplicada</h3><p class="solution">${esc(incident.solucion)}</p><p class="muted">Resuelta el ${esc(incident.fechaResolucion)}</p>`:''}</section><aside class="panel"><div class="eyebrow">Actividad</div><h2>Historial</h2><div class="history">${data.history.length?data.history.map(item=>`<article class="history-item"><strong>${esc(item.fecha)}</strong><p>${pretty(item.estadoAnterior)}${item.estadoNuevo?' → '+pretty(item.estadoNuevo):''}</p><div class="muted">${esc(item.observacion||pretty(item.accion))}</div></article>`).join(''):'<p class="empty">Sin movimientos registrados.</p>'}</div></aside>`;
+    content.classList.remove('hidden');
+  }
+  if(!id)fail('Falta el código de incidencia.');else google.script.run.withSuccessHandler(render).withFailureHandler(fail).apiTrackIncident(id);
+})();
+</script>
