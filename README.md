@@ -47,6 +47,8 @@ La Web App se ejecuta con la identidad del propietario del despliegue y limita e
 
 Al registrar una incidencia, GIDI envía al docente un correo de confirmación con sus datos y un enlace de seguimiento. Al marcarla como resuelta, envía un segundo aviso con la solución aplicada. Si el servicio de correo falla o se alcanza la cuota diaria, la incidencia permanece guardada y el error se registra en el historial.
 
+Después de incorporar o modificar las notificaciones, el propietario del despliegue debe ejecutar una vez `authorizeEmailNotifications()` desde el editor de Apps Script y conceder el permiso de envío de correo. La función solo consulta la cuota disponible y no envía mensajes.
+
 ## Estado
 
 La V0.3 sigue en `develop`. El bootstrap, la interfaz docente y la prueba end-to-end están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
