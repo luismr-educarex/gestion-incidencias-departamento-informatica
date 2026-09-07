@@ -5,9 +5,10 @@ function doGet(e){
   let view='Index';
   if(modo==='editor') view='MapEditor';
   else if(modo==='incidencias') view='IncidentsManager';
+  else if(modo==='aulas') view='Classrooms';
   else if(modo==='panel'||(!aula&&modo!=='editor')) view='Dashboard';
   const t=HtmlService.createTemplateFromFile(view);t.appName=APP.NAME;t.appVersion=APP.VERSION;t.aula=aula;
-  const titles={Dashboard:'GIDI · Panel',MapEditor:`GIDI · Editor ${aula}`,IncidentsManager:'GIDI · Gestión de incidencias'};
+  const titles={Dashboard:'GIDI · Panel',MapEditor:`GIDI · Editor ${aula}`,IncidentsManager:'GIDI · Gestión de incidencias',Classrooms:'GIDI · Acceso a aulas'};
   return t.evaluate().setTitle(titles[view]||APP.NAME).addMetaTag('viewport','width=device-width, initial-scale=1, viewport-fit=cover').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 function include_(f){return HtmlService.createHtmlOutputFromFile(f).getContent()}

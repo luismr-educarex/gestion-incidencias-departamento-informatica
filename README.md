@@ -28,11 +28,14 @@ Rutas principales:
 
 - `.../exec`: panel por defecto;
 - `.../exec?modo=panel`: panel de seguimiento;
+- `.../exec?modo=aulas`: selector de aulas para el ordenador del profesor;
 - `.../exec?modo=incidencias`: gestión de incidencias;
 - `.../exec?aula=A01`: registro docente para el aula A01;
 - `.../exec?modo=editor&aula=A01`: editor del mapa de A01.
 
 El editor permite arrastrar activos y ajustar X/Y, ancho, alto y rotación. La geometría se persiste en `ACTIVOS`.
+
+El selector `modo=aulas` ofrece enlaces directos y copiables a las ocho aulas. Está pensado para guardarlo como favorito en el ordenador del profesor.
 
 ## Seguridad
 
