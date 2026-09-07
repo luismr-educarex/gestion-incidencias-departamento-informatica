@@ -14,22 +14,34 @@ Aplicación para registrar y gestionar incidencias de las aulas de informática 
 - Interfaz responsive para móvil, tablet y ordenador.
 - Mapas basados en los croquis reales recuperados.
 
-## V0.3 — Editor visual de mapas
+## V0.3 — Aplicación desplegable
+
+La rama `develop` contiene la aplicación completa para Google Apps Script:
+
+- alta de incidencias desde el plano de cada aula;
+- panel de seguimiento;
+- gestión del ciclo de vida de las incidencias;
+- editor visual de mapas;
+- bootstrap de la hoja de cálculo, las 8 aulas y sus activos.
+
+Rutas principales:
+
+- `.../exec`: panel por defecto;
+- `.../exec?modo=panel`: panel de seguimiento;
+- `.../exec?modo=incidencias`: gestión de incidencias;
+- `.../exec?aula=A01`: registro docente para el aula A01;
+- `.../exec?modo=editor&aula=A01`: editor del mapa de A01.
 
 El editor permite arrastrar activos y ajustar X/Y, ancho, alto y rotación. La geometría se persiste en `ACTIVOS`.
 
-Ruta: `.../exec?modo=editor&aula=A01`.
+## Seguridad
 
-La rama `develop` contiene ya el enrutamiento del editor, la capa de acceso a Google Sheets, el servicio de alta de incidencias, la persistencia del editor y el manifiesto Apps Script.
-
-## Seguridad pendiente
-
-El editor exige actualmente una sesión Google identificable. Antes de producción se sustituirá por una lista explícita de gestores autorizados. El manifiesto sigue siendo de prototipo y debe endurecerse según la configuración Google Workspace del centro.
+La Web App se ejecuta con la identidad del propietario del despliegue y limita el acceso al dominio de Google Workspace. Las acciones de gestión requieren además un usuario identificado con rol autorizado en la hoja `USUARIOS`.
 
 ## Estado
 
-La V0.3 sigue en PR borrador. No debe fusionarse a `main` hasta completar el bootstrap inicial de Sheets, incorporar la interfaz docente completa al repositorio y validar los mapas físicos.
+La V0.3 sigue en `develop`. El bootstrap, la interfaz docente y la prueba end-to-end están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
 
 ## Siguiente hito
 
-Bootstrap de las 8 aulas + panel de jefatura.
+Validación en el centro con una segunda cuenta de Google Workspace y revisión física de las 8 aulas.
