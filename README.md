@@ -14,7 +14,7 @@ Aplicación para registrar y gestionar incidencias de las aulas de informática 
 - Interfaz responsive para móvil, tablet y ordenador.
 - Mapas basados en los croquis reales recuperados.
 
-## V0.4.3 — Aplicación desplegable
+## V0.4.4 — Aplicación desplegable
 
 La rama `develop` contiene la aplicación completa para Google Apps Script:
 
@@ -43,6 +43,8 @@ El selector `modo=aulas` ofrece enlaces directos y copiables a las ocho aulas. E
 
 Todos los enlaces que genera GIDI usan la ruta vinculada a `educarex.es`. Esto evita que Google intente abrir la aplicación con otra cuenta activa del navegador. Si hay varias cuentas de Google abiertas, el usuario debe seleccionar su cuenta `@educarex.es`.
 
+Las vistas declaran la URL oficial como base de navegación. Los botones nunca enlazan al marco temporal `googleusercontent.com/userCodeAppPanel`, que no debe compartirse ni utilizarse como acceso directo.
+
 ## Seguridad
 
 La Web App se ejecuta con la identidad del propietario del despliegue y limita el acceso al dominio de Google Workspace. Solo las cuentas dadas de alta en `USUARIOS` pueden utilizar GIDI. Los docentes registran y consultan sus incidencias; los supervisores gestionan incidencias y mapas; el administrador inicial `lmartinezr10@educarex.es` gestiona también usuarios y roles.
@@ -53,7 +55,7 @@ Después de incorporar o modificar las notificaciones, el propietario del despli
 
 ## Estado
 
-La V0.4.3 sigue en `develop`. El bootstrap, la interfaz docente, los avisos por correo y las pruebas automáticas están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
+La V0.4.4 sigue en `develop`. El bootstrap, la interfaz docente, los avisos por correo y las pruebas automáticas están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
 
 ## Siguiente hito
 

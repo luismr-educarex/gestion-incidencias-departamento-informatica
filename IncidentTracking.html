@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-<head><base target="_top"><?!= include_('Styles'); ?><?!= include_('IncidentTrackingStyles'); ?></head>
+<head><base href="<?= baseUrl ?>" target="_top"><?!= include_('Styles'); ?><?!= include_('IncidentTrackingStyles'); ?></head>
 <body>
 <main id="tracking" data-id="<?= incidentId ?>">
   <header class="topbar"><div><div class="eyebrow">GIDI · Seguimiento</div><h1 id="title">Incidencia <?= incidentId ?></h1></div><div class="header-actions"><a class="action secondary" href="?modo=aulas">Acceso a aulas</a><span class="badge">V<?= appVersion ?></span></div></header>
