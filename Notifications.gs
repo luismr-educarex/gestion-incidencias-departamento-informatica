@@ -1,4 +1,4 @@
-function getIncidentTrackingUrl_(id){return ScriptApp.getService().getUrl()+'?modo=seguimiento&id='+encodeURIComponent(String(id||''));}
+function getIncidentTrackingUrl_(id){return getWebAppUrl_()+'?modo=seguimiento&id='+encodeURIComponent(String(id||''));}
 
 function escapeHtml_(value){return String(value==null?'':value).replace(/[&<>"']/g,function(char){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char];});}
 

@@ -5,5 +5,5 @@ function apiClassrooms(){
     .map(function(row){
       return{codigo:String(row.CODIGO||''),nombre:String(row.NOMBRE||''),ubicacion:String(row.UBICACION||'')};
     });
-  return{ok:true,user:user,baseUrl:ScriptApp.getService().getUrl(),rooms:rooms};
+  return{ok:true,user:user,baseUrl:getWebAppUrl_(),rooms:rooms};
 }
