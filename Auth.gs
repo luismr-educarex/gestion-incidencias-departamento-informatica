@@ -28,3 +28,11 @@ function requireRegisteredUser_(){return requireRole_([GIDI_ROLES.DOCENTE,GIDI_R
 function apiCurrentUser(){const user=getCurrentUser_();return{ok:true,email:user.email,role:user.role};}
 function requireManager_(){return requireRole_([GIDI_ROLES.SUPERVISOR,GIDI_ROLES.ADMIN]);}
 function requireAdmin_(){return requireRole_([GIDI_ROLES.ADMIN]);}
+
+function getAssignableManagers_(){
+  const managers=getSheetRows_(APP.SHEETS.USUARIOS).filter(function(row){
+    return String(row.ACTIVO||'SI').toUpperCase()!=='NO'&&[GIDI_ROLES.SUPERVISOR,GIDI_ROLES.ADMIN].includes(normalizeRole_(row.ROL));
+  }).map(function(row){return{email:String(row.EMAIL||'').trim().toLowerCase(),nombre:String(row.NOMBRE||row.EMAIL||'').trim()};}).filter(function(row){return isEducarexEmail_(row.email);});
+  if(!managers.some(function(row){return row.email===GIDI_INITIAL_ADMIN;}))managers.unshift({email:GIDI_INITIAL_ADMIN,nombre:'Luis Martínez Redondo'});
+  return managers;
+}

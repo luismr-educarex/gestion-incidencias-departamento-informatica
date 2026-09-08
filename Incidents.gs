@@ -1,12 +1,22 @@
 function apiCreateIncident(p){
   const user=requireRegisteredUser_();
   if(!p||!String(p.aula||'').trim()||!String(p.categoria||'').trim()||!String(p.descripcion||'').trim())throw new Error('Completa aula, categoría y descripción.');
+  const aula=String(p.aula).trim().toUpperCase(),category=String(p.categoria).trim(),priority=String(p.prioridad||'NORMAL').trim().toUpperCase(),description=String(p.descripcion).trim().slice(0,1000),assetCode=String(p.activo||'AULA').trim();
+  if(!getAulaByCode_(aula))throw new Error('El aula no existe o está desactivada.');
+  if(!getCategories_().includes(category))throw new Error('La categoría no existe o está desactivada.');
+  if(!APP.PRIORITIES.includes(priority))throw new Error('La prioridad indicada no es válida.');
+  let assetType='GENERAL';
+  if(assetCode!=='AULA'){
+    const asset=getActivosByAula_(aula).find(function(item){return item.codigo===assetCode;});
+    if(!asset)throw new Error('El equipo no pertenece al aula o está desactivado.');
+    assetType=asset.tipo;
+  }
   const sh=getSpreadsheet_().getSheetByName(APP.SHEETS.INCIDENCIAS),lock=LockService.getScriptLock(),email=user.email;
   let id,now,incident;
   lock.waitLock(10000);
   try{
     id=nextIncidentId_();now=new Date();
-    incident={ID:id,FECHA_ALTA:now,AULA:String(p.aula).trim().toUpperCase(),ACTIVO:String(p.activo||'AULA'),TIPO_ACTIVO:String(p.tipoActivo||'GENERAL'),DOCENTE:email,CATEGORIA:String(p.categoria),PRIORIDAD:String(p.prioridad||'NORMAL').toUpperCase(),DESCRIPCION:String(p.descripcion).slice(0,1000),ESTADO:APP.STATUS.NUEVA,RESPONSABLE:'',FECHA_ASIGNACION:'',FECHA_RESOLUCION:'',SOLUCION:'',OBSERVACIONES:''};
+    incident={ID:id,FECHA_ALTA:now,AULA:aula,ACTIVO:assetCode,TIPO_ACTIVO:assetType,DOCENTE:email,CATEGORIA:category,PRIORIDAD:priority,DESCRIPCION:description,ESTADO:APP.STATUS.NUEVA,RESPONSABLE:'',FECHA_ASIGNACION:'',FECHA_RESOLUCION:'',SOLUCION:'',OBSERVACIONES:''};
     sh.appendRow([incident.ID,incident.FECHA_ALTA,incident.AULA,incident.ACTIVO,incident.TIPO_ACTIVO,incident.DOCENTE,incident.CATEGORIA,incident.PRIORIDAD,incident.DESCRIPCION,incident.ESTADO,'','','','','']);
     appendHistory_(id,'ALTA','',APP.STATUS.NUEVA,email,incident.DESCRIPCION);
   }finally{lock.releaseLock();}

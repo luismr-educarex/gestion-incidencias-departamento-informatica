@@ -14,7 +14,7 @@ Aplicación para registrar y gestionar incidencias de las aulas de informática 
 - Interfaz responsive para móvil, tablet y ordenador.
 - Mapas basados en los croquis reales recuperados.
 
-## V0.3 — Aplicación desplegable
+## V0.4.1 — Aplicación desplegable
 
 La rama `develop` contiene la aplicación completa para Google Apps Script:
 
@@ -37,7 +37,7 @@ Rutas principales:
 - `.../exec?aula=A01`: registro docente para el aula A01;
 - `.../exec?modo=editor&aula=A01`: editor del mapa de A01.
 
-El editor permite arrastrar activos y ajustar X/Y, ancho, alto y rotación. La geometría se persiste en `ACTIVOS`.
+El editor permite coger, arrastrar y soltar activos dentro del plano, moverlos con el teclado y ajustar X/Y, ancho, alto y rotación. Impide que queden fuera del aula, avisa de cambios sin guardar y persiste la geometría en `ACTIVOS` con bloqueo para evitar escrituras simultáneas.
 
 El selector `modo=aulas` ofrece enlaces directos y copiables a las ocho aulas. Está pensado para guardarlo como favorito en el ordenador del profesor.
 
@@ -51,7 +51,7 @@ Después de incorporar o modificar las notificaciones, el propietario del despli
 
 ## Estado
 
-La V0.3 sigue en `develop`. El bootstrap, la interfaz docente y la prueba end-to-end están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
+La V0.4.1 sigue en `develop`. El bootstrap, la interfaz docente, los avisos por correo y las pruebas automáticas están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
 
 ## Siguiente hito
 
