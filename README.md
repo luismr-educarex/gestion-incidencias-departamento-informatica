@@ -14,7 +14,7 @@ Aplicación para registrar y gestionar incidencias de las aulas de informática 
 - Interfaz responsive para móvil, tablet y ordenador.
 - Mapas basados en los croquis reales recuperados.
 
-## V0.4.1 — Aplicación desplegable
+## V0.4.2 — Aplicación desplegable
 
 La rama `develop` contiene la aplicación completa para Google Apps Script:
 
@@ -51,7 +51,7 @@ Después de incorporar o modificar las notificaciones, el propietario del despli
 
 ## Estado
 
-La V0.4.1 sigue en `develop`. El bootstrap, la interfaz docente, los avisos por correo y las pruebas automáticas están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
+La V0.4.2 sigue en `develop`. El bootstrap, la interfaz docente, los avisos por correo y las pruebas automáticas están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
 
 ## Siguiente hito
 
