@@ -1,0 +1,15 @@
+<script>
+(()=>{
+  const rooms=document.getElementById('rooms'),message=document.getElementById('message');
+  const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  function fail(error){message.textContent=error?.message||String(error);message.classList.remove('hidden');message.classList.add('error');}
+  function fallbackCopy(url,done){const field=document.createElement('textarea');field.value=url;field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();document.execCommand('copy');field.remove();done();}
+  function copyLink(button,url){const done=()=>{const feedback=button.closest('.room-content').querySelector('.copy-feedback');feedback.textContent='Enlace copiado';window.setTimeout(()=>feedback.textContent='',1800);};if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(url).then(done).catch(()=>fallbackCopy(url,done));else fallbackCopy(url,done);}
+  function render(data){
+    if(!data.ok){fail('No se pudieron cargar las aulas.');return;}
+    rooms.innerHTML=data.rooms.map(room=>{const url=`${data.baseUrl}?aula=${encodeURIComponent(room.codigo)}`;return `<article class="classroom-card"><div class="room-code">${esc(room.codigo)}</div><div class="room-content"><h2>${esc(room.nombre)}</h2>${room.ubicacion?`<div class="muted">${esc(room.ubicacion)}</div>`:''}<div class="room-actions"><a class="action" href="${esc(url)}">Entrar en el aula</a><button class="secondary copy-link" type="button" data-url="${esc(url)}">Copiar enlace</button></div><div class="copy-feedback" aria-live="polite"></div></div></article>`;}).join('');
+    rooms.querySelectorAll('.copy-link').forEach(button=>button.addEventListener('click',()=>copyLink(button,button.dataset.url)));
+  }
+  google.script.run.withSuccessHandler(render).withFailureHandler(fail).apiClassrooms();
+})();
+</script>

@@ -1,0 +1,28 @@
+<nav class="gidi-nav" aria-label="Navegación principal">
+  <a class="gidi-nav-link" data-page="aulas" href="?modo=aulas">Aulas</a>
+  <a class="gidi-nav-link gidi-manager-only hidden" data-page="panel" href="?modo=panel">Panel</a>
+  <a class="gidi-nav-link gidi-manager-only hidden" data-page="incidencias" href="?modo=incidencias">Incidencias</a>
+  <a class="gidi-nav-link gidi-admin-only hidden" data-page="administrar-aulas" href="?modo=administrar-aulas">Administrar aulas</a>
+  <a class="gidi-nav-link gidi-admin-only hidden" data-page="usuarios" href="?modo=usuarios">Usuarios</a>
+  <a class="gidi-nav-link gidi-current-room hidden" data-page="aula" href="?modo=aulas">Aula actual</a>
+  <a class="gidi-nav-link gidi-manager-only gidi-current-editor hidden" data-page="editor" href="?modo=aulas">Editar mapa</a>
+</nav>
+<style>
+.gidi-nav{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:0 0 16px;padding:9px;background:#fff;border:1px solid #d8dee8;border-radius:14px}.gidi-nav-link{min-height:38px;border:1px solid #d8dee8;border-radius:9px;padding:0 11px;color:#172033;background:#fff;font-size:.84rem;font-weight:750;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.gidi-nav-link[aria-current="page"]{border-color:#1d4ed8;background:#eef4ff;color:#1d4ed8}.gidi-nav .hidden{display:none!important}@media(max-width:620px){.gidi-nav-link{flex:1 1 auto}}
+</style>
+<script>
+(()=>{
+  const nav=document.currentScript.previousElementSibling.previousElementSibling;
+  if(!nav||!nav.classList.contains('gidi-nav'))return;
+  const params=new URLSearchParams(location.search),mode=(params.get('modo')||'').toLowerCase(),room=(params.get('aula')||'').toUpperCase();
+  let page=mode||(!room?'panel':'aula');
+  if(page==='seguimiento')page='';
+  const current=page&&nav.querySelector(`[data-page="${page}"]`);if(current)current.setAttribute('aria-current','page');
+  if(room){const roomLink=nav.querySelector('.gidi-current-room'),editorLink=nav.querySelector('.gidi-current-editor');roomLink.href=`?aula=${encodeURIComponent(room)}`;roomLink.textContent=`Aula ${room}`;roomLink.classList.remove('hidden');editorLink.href=`?modo=editor&aula=${encodeURIComponent(room)}`;}
+  google.script.run.withSuccessHandler(result=>{
+    if(!result||!result.role)return;
+    if(['SUPERVISOR','ADMIN'].includes(result.role))nav.querySelectorAll('.gidi-manager-only').forEach(link=>link.classList.remove('hidden'));
+    if(result.role==='ADMIN')nav.querySelectorAll('.gidi-admin-only').forEach(link=>link.classList.remove('hidden'));
+  }).apiCurrentUser();
+})();
+</script>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head><base href="<?= baseUrl ?>" target="_top"><?!= include_('Styles'); ?><?!= include_('UsersAdminStyles'); ?></head>
+<body>
+<main>
+  <?!= include_('Navigation'); ?>
+  <header class="topbar"><div><div class="eyebrow">GIDI · Administración</div><h1>Usuarios y roles</h1><p class="muted intro">Autoriza cuentas del dominio educarex.es como docentes o supervisores.</p></div><div class="header-actions"><span class="badge">V<?= appVersion ?></span></div></header>
+  <div id="message" class="message hidden" aria-live="polite"></div>
+  <section class="users-layout">
+    <form id="userForm" class="panel user-form">
+      <div class="eyebrow">Alta o modificación</div><h2 id="formTitle">Nuevo usuario</h2>
+      <label>Correo corporativo<input id="email" type="email" required autocomplete="off" placeholder="nombre@educarex.es" pattern="[^@\s]+@educarex\.es"></label>
+      <label>Nombre<input id="name" type="text" maxlength="120" autocomplete="off" placeholder="Nombre y apellidos"></label>
+      <label>Rol<select id="role" required><option value="DOCENTE">Docente</option><option value="SUPERVISOR">Supervisor</option></select></label>
+      <label class="check"><input id="active" type="checkbox" checked> Usuario activo</label>
+      <div class="form-actions"><button id="save" type="submit">Guardar usuario</button><button id="cancel" class="secondary hidden" type="button">Cancelar edición</button></div>
+    </form>
+    <section class="panel"><div class="section-title"><div><div class="eyebrow">Usuarios autorizados</div><h2>Directorio</h2></div><span id="count" class="badge"></span></div><div id="users" class="user-list"></div></section>
+  </section>
+</main>
+<?!= include_('UsersAdminScripts'); ?>
+</body>
+</html>

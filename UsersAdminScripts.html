@@ -1,0 +1,23 @@
+<script>
+(()=>{
+  const $=selector=>document.querySelector(selector),form=$('#userForm'),message=$('#message');
+  let data=null,editing='';
+  const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  const roleName=role=>role==='SUPERVISOR'?'Supervisor':role==='ADMIN'?'Administrador':'Docente';
+  function notify(text,error){message.textContent=text;message.classList.remove('hidden','error');if(error)message.classList.add('error');}
+  function fail(error){notify(error?.message||String(error),true);}
+  function load(){google.script.run.withSuccessHandler(render).withFailureHandler(fail).apiListUsers();}
+  function render(result){
+    data=result;$('#count').textContent=`${result.users.length} usuarios`;
+    $('#users').innerHTML=result.users.length?result.users.map(user=>`<article class="user-card"><div><div class="user-email">${esc(user.email)}</div><div class="muted">${esc(user.nombre||'Sin nombre')}</div><div class="user-meta"><span class="role">${roleName(user.rol)}</span><span class="state ${user.activo==='NO'?'off':''}">${user.activo==='NO'?'Inactivo':'Activo'}</span></div></div><div class="user-actions">${user.email===result.initialAdmin?'<span class="muted">Administrador protegido</span>':`<button class="secondary edit" type="button" data-email="${esc(user.email)}">Editar</button><button class="secondary toggle" type="button" data-email="${esc(user.email)}">${user.activo==='NO'?'Reactivar':'Desactivar'}</button>`}</div></article>`).join(''):'<div class="empty">No hay usuarios.</div>';
+  }
+  function reset(){editing='';form.reset();$('#active').checked=true;$('#email').disabled=false;$('#formTitle').textContent='Nuevo usuario';$('#cancel').classList.add('hidden');}
+  function edit(email){const user=data.users.find(item=>item.email===email);if(!user)return;editing=email;$('#email').value=user.email;$('#email').disabled=true;$('#name').value=user.nombre;$('#role').value=user.rol;$('#active').checked=user.activo!=='NO';$('#formTitle').textContent='Editar usuario';$('#cancel').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
+  function toggle(email){const user=data.users.find(item=>item.email===email);if(!user)return;if(user.activo==='NO')saveUser({email:user.email,nombre:user.nombre,rol:user.rol,activo:'SI'});else if(confirm(`¿Desactivar a ${user.email}?`))google.script.run.withSuccessHandler(()=>{notify('Usuario desactivado.',false);reset();load();}).withFailureHandler(fail).apiDisableUser(email);}
+  function saveUser(payload){google.script.run.withSuccessHandler(result=>{notify(result.created?'Usuario dado de alta.':'Usuario actualizado.',false);reset();load();}).withFailureHandler(fail).apiUpsertUser(payload);}
+  form.addEventListener('submit',event=>{event.preventDefault();saveUser({email:$('#email').value,nombre:$('#name').value,rol:$('#role').value,activo:$('#active').checked?'SI':'NO'});});
+  $('#cancel').addEventListener('click',reset);
+  $('#users').addEventListener('click',event=>{const button=event.target.closest('button[data-email]');if(!button)return;if(button.classList.contains('edit'))edit(button.dataset.email);else toggle(button.dataset.email);});
+  load();
+})();
+</script>
