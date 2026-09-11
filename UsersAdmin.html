@@ -3,7 +3,8 @@
 <head><base href="<?= baseUrl ?>" target="_top"><?!= include_('Styles'); ?><?!= include_('UsersAdminStyles'); ?></head>
 <body>
 <main>
-  <header class="topbar"><div><div class="eyebrow">GIDI · Administración</div><h1>Usuarios y roles</h1><p class="muted intro">Autoriza cuentas del dominio educarex.es como docentes o supervisores.</p></div><div class="header-actions"><a class="action secondary" href="?modo=panel">Volver al panel</a><span class="badge">V<?= appVersion ?></span></div></header>
+  <?!= include_('Navigation'); ?>
+  <header class="topbar"><div><div class="eyebrow">GIDI · Administración</div><h1>Usuarios y roles</h1><p class="muted intro">Autoriza cuentas del dominio educarex.es como docentes o supervisores.</p></div><div class="header-actions"><span class="badge">V<?= appVersion ?></span></div></header>
   <div id="message" class="message hidden" aria-live="polite"></div>
   <section class="users-layout">
     <form id="userForm" class="panel user-form">

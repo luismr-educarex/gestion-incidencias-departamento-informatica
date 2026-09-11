@@ -1,0 +1,11 @@
+<!doctype html>
+<html>
+<head><base href="<?= baseUrl ?>" target="_top"><?!= include_('Styles'); ?><?!= include_('ClassroomsAdminStyles'); ?></head>
+<body><main>
+  <?!= include_('Navigation'); ?>
+  <header class="topbar"><div><div class="eyebrow">GIDI · Administración</div><h1>Gestión masiva de aulas</h1><p class="muted intro">Edita varios nombres, ubicaciones y estados antes de guardar todos los cambios de una vez.</p></div><div class="header-actions"><button id="saveAll" type="button" disabled>Guardar todos los cambios</button><span class="badge">V<?= appVersion ?></span></div></header>
+  <div id="message" class="message hidden" aria-live="polite"></div>
+  <section class="panel admin-section"><div class="section-title"><div><div class="eyebrow">Aulas</div><h2>Datos generales</h2></div><span id="roomCount" class="badge"></span></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Nombre</th><th>Ubicación</th><th>Activa</th><th>Acciones</th></tr></thead><tbody id="roomsBody"></tbody></table></div></section>
+  <section class="panel admin-section"><div class="section-title"><div><div class="eyebrow">Puestos y dispositivos</div><h2>Nombres en modo tabla</h2></div><span id="assetCount" class="badge"></span></div><div class="asset-tools"><label>Aula<select id="roomFilter"></select></label><label>Buscar<input id="assetSearch" type="search" placeholder="Código o nombre"></label></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Tipo</th><th>Nombre visible</th><th>Estado</th><th>Activo</th></tr></thead><tbody id="assetsBody"></tbody></table></div></section>
+</main><?!= include_('ClassroomsAdminScripts'); ?></body>
+</html>

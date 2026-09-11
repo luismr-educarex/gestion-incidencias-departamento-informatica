@@ -3,9 +3,10 @@
 <head><base href="<?= baseUrl ?>" target="_top"><?!= include_('Styles'); ?><?!= include_('ClassroomsStyles'); ?></head>
 <body>
 <main>
+  <?!= include_('Navigation'); ?>
   <header class="topbar">
     <div><div class="eyebrow">GIDI · Acceso docente</div><h1>Selecciona un aula</h1><p class="muted intro">Acceso directo desde el ordenador del profesor para registrar una incidencia.</p></div>
-    <div class="header-actions"><a id="managerLink" class="action secondary hidden" href="?modo=panel">Panel</a><span class="badge">V<?= appVersion ?></span></div>
+    <div class="header-actions"><span class="badge">V<?= appVersion ?></span></div>
   </header>
   <div id="message" class="message hidden" aria-live="polite"></div>
   <section id="rooms" class="classroom-links" aria-label="Aulas"></section>

@@ -6,11 +6,12 @@ function doGet(e){
   if(modo==='editor') view='MapEditor';
   else if(modo==='incidencias') view='IncidentsManager';
   else if(modo==='aulas') view='Classrooms';
+  else if(modo==='administrar-aulas') view='ClassroomsAdmin';
   else if(modo==='usuarios') view='UsersAdmin';
   else if(modo==='seguimiento') view='IncidentTracking';
   else if(modo==='panel'||(!aula&&modo!=='editor')) view='Dashboard';
   const t=HtmlService.createTemplateFromFile(view);t.appName=APP.NAME;t.appVersion=APP.VERSION;t.baseUrl=getWebAppUrl_();t.aula=aula;t.incidentId=String(p.id||'').trim();
-  const titles={Dashboard:'GIDI · Panel',MapEditor:`GIDI · Editor ${aula}`,IncidentsManager:'GIDI · Gestión de incidencias',Classrooms:'GIDI · Acceso a aulas',UsersAdmin:'GIDI · Usuarios',IncidentTracking:'GIDI · Seguimiento'};
+  const titles={Dashboard:'GIDI · Panel',MapEditor:`GIDI · Editor ${aula}`,IncidentsManager:'GIDI · Gestión de incidencias',Classrooms:'GIDI · Acceso a aulas',ClassroomsAdmin:'GIDI · Administración de aulas',UsersAdmin:'GIDI · Usuarios',IncidentTracking:'GIDI · Seguimiento'};
   return t.evaluate().setTitle(titles[view]||APP.NAME).addMetaTag('viewport','width=device-width, initial-scale=1, viewport-fit=cover');
 }
 function include_(f){return HtmlService.createHtmlOutputFromFile(f).getContent()}

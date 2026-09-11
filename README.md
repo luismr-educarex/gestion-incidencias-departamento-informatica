@@ -14,7 +14,7 @@ Aplicación para registrar y gestionar incidencias de las aulas de informática 
 - Interfaz responsive para móvil, tablet y ordenador.
 - Mapas basados en los croquis reales recuperados.
 
-## V0.4.4 — Aplicación desplegable
+## V0.5.0 — Navegación y administración masiva
 
 La rama `develop` contiene la aplicación completa para Google Apps Script:
 
@@ -24,6 +24,8 @@ La rama `develop` contiene la aplicación completa para Google Apps Script:
 - altas de usuarios `@educarex.es` con roles docente y supervisor;
 - correos de confirmación y resolución con enlace de seguimiento;
 - editor visual de mapas;
+- navegación común adaptada al rol en todas las vistas;
+- administración masiva de aulas y puestos en formato tabla;
 - bootstrap de la hoja de cálculo, las 8 aulas y sus activos.
 
 Rutas principales:
@@ -33,6 +35,7 @@ Rutas principales:
 - `.../exec?modo=aulas`: selector de aulas para el ordenador del profesor;
 - `.../exec?modo=incidencias`: gestión de incidencias;
 - `.../exec?modo=usuarios`: administración de usuarios y roles;
+- `.../exec?modo=administrar-aulas`: edición masiva de nombres, ubicaciones y estados (solo administrador);
 - `.../exec?modo=seguimiento&id=INC-...`: seguimiento de una incidencia;
 - `.../exec?aula=A01`: registro docente para el aula A01;
 - `.../exec?modo=editor&aula=A01`: editor del mapa de A01.
@@ -55,7 +58,7 @@ Después de incorporar o modificar las notificaciones, el propietario del despli
 
 ## Estado
 
-La V0.4.4 sigue en `develop`. El bootstrap, la interfaz docente, los avisos por correo y las pruebas automáticas están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
+La V0.5.0 sigue en `develop`. El bootstrap, la interfaz docente, los avisos por correo, la navegación común y la edición masiva de aulas están completos. No debe fusionarse a `main` hasta validar el acceso con una segunda cuenta del dominio y contrastar físicamente los mapas y proyectores.
 
 ## Siguiente hito
 

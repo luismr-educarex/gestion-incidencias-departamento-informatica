@@ -1,0 +1,27 @@
+<script>
+(()=>{
+  const $=selector=>document.querySelector(selector),message=$('#message'),save=$('#saveAll');
+  let model={rooms:[],assets:[]},original='',dirty=false,saving=false;
+  const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  const snapshot=()=>JSON.stringify({rooms:model.rooms.map(({codigo,nombre,ubicacion,activa})=>({codigo,nombre,ubicacion,activa})),assets:model.assets.map(({codigo,nombre,estado,activo})=>({codigo,nombre,estado,activo}))});
+  function notify(text,error){message.textContent=text;message.classList.remove('hidden','error');if(error)message.classList.add('error');}
+  function fail(error){saving=false;save.disabled=!dirty;notify(error?.message||String(error),true);}
+  function setDirty(){dirty=snapshot()!==original;save.disabled=!dirty||saving;}
+  function load(){save.disabled=true;notify('Cargando aulas y puestos…',false);google.script.run.withSuccessHandler(init).withFailureHandler(fail).apiClassroomAdminBootstrap();}
+  function init(result){model={rooms:result.rooms,assets:result.assets};original=snapshot();dirty=false;saving=false;save.disabled=true;message.classList.add('hidden');renderRooms();renderFilter();renderAssets();}
+  function renderRooms(){
+    $('#roomCount').textContent=`${model.rooms.length} aulas`;
+    $('#roomsBody').innerHTML=model.rooms.map(room=>`<tr data-row="room-${esc(room.codigo)}"><td class="code">${esc(room.codigo)}</td><td><input data-kind="room" data-code="${esc(room.codigo)}" data-field="nombre" maxlength="120" value="${esc(room.nombre)}" aria-label="Nombre de ${esc(room.codigo)}"></td><td><input data-kind="room" data-code="${esc(room.codigo)}" data-field="ubicacion" maxlength="160" value="${esc(room.ubicacion)}" aria-label="Ubicación de ${esc(room.codigo)}"></td><td><select data-kind="room" data-code="${esc(room.codigo)}" data-field="activa" aria-label="Estado de ${esc(room.codigo)}"><option value="SI"${room.activa==='SI'?' selected':''}>Sí</option><option value="NO"${room.activa==='NO'?' selected':''}>No</option></select></td><td><div class="row-actions"><a class="action secondary" href="?aula=${encodeURIComponent(room.codigo)}">Abrir</a><a class="action secondary" href="?modo=editor&amp;aula=${encodeURIComponent(room.codigo)}">Mapa</a></div></td></tr>`).join('');
+  }
+  function renderFilter(){const current=$('#roomFilter').value;$('#roomFilter').innerHTML=model.rooms.map(room=>`<option value="${esc(room.codigo)}">${esc(room.codigo)} · ${esc(room.nombre)}</option>`).join('');if(model.rooms.some(room=>room.codigo===current))$('#roomFilter').value=current;}
+  function renderAssets(){
+    const room=$('#roomFilter').value,term=$('#assetSearch').value.trim().toLowerCase();
+    const rows=model.assets.filter(asset=>asset.aula===room&&(!term||asset.codigo.toLowerCase().includes(term)||asset.nombre.toLowerCase().includes(term)));
+    $('#assetCount').textContent=`${rows.length} de ${model.assets.filter(asset=>asset.aula===room).length} puestos`;
+    $('#assetsBody').innerHTML=rows.length?rows.map(asset=>`<tr data-row="asset-${esc(asset.codigo)}"><td class="code">${esc(asset.codigo)}</td><td>${esc(asset.tipo)}</td><td><input data-kind="asset" data-code="${esc(asset.codigo)}" data-field="nombre" maxlength="120" value="${esc(asset.nombre)}" aria-label="Nombre de ${esc(asset.codigo)}"></td><td><input data-kind="asset" data-code="${esc(asset.codigo)}" data-field="estado" maxlength="40" value="${esc(asset.estado)}" aria-label="Estado de ${esc(asset.codigo)}"></td><td><select data-kind="asset" data-code="${esc(asset.codigo)}" data-field="activo" aria-label="Activo ${esc(asset.codigo)}"><option value="SI"${asset.activo==='SI'?' selected':''}>Sí</option><option value="NO"${asset.activo==='NO'?' selected':''}>No</option></select></td></tr>`).join(''):'<tr><td class="empty-row" colspan="5">No hay puestos que coincidan con el filtro.</td></tr>';
+  }
+  function update(event){const field=event.target.closest('[data-kind]');if(!field)return;const collection=field.dataset.kind==='room'?model.rooms:model.assets,item=collection.find(entry=>entry.codigo===field.dataset.code);if(!item)return;item[field.dataset.field]=field.value;field.closest('tr').classList.add('changed');if(field.dataset.kind==='room'&&field.dataset.field==='nombre')renderFilter();setDirty();}
+  function saveAll(){if(!dirty||saving)return;const invalid=model.rooms.find(room=>!room.nombre.trim())||model.assets.find(asset=>!asset.nombre.trim());if(invalid){notify(`El registro ${invalid.codigo} necesita un nombre.`,true);return;}saving=true;save.disabled=true;notify('Guardando todos los cambios…',false);google.script.run.withSuccessHandler(result=>{original=snapshot();dirty=false;saving=false;save.disabled=true;document.querySelectorAll('tr.changed').forEach(row=>row.classList.remove('changed'));notify(`Cambios guardados: ${result.roomsChanged} aulas y ${result.assetsChanged} puestos actualizados.`,false);}).withFailureHandler(fail).apiSaveClassroomAdministration(model);}
+  $('#roomsBody').addEventListener('input',update);$('#roomsBody').addEventListener('change',update);$('#assetsBody').addEventListener('input',update);$('#assetsBody').addEventListener('change',update);$('#roomFilter').addEventListener('change',renderAssets);$('#assetSearch').addEventListener('input',renderAssets);save.addEventListener('click',saveAll);window.addEventListener('beforeunload',event=>{if(!dirty)return;event.preventDefault();event.returnValue='';});load();
+})();
+</script>
