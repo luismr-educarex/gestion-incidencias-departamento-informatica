@@ -21,7 +21,7 @@
   if(room){const roomLink=nav.querySelector('.gidi-current-room'),editorLink=nav.querySelector('.gidi-current-editor');roomLink.href=`?aula=${encodeURIComponent(room)}`;roomLink.textContent=`Aula ${room}`;roomLink.classList.remove('hidden');editorLink.href=`?modo=editor&aula=${encodeURIComponent(room)}`;}
   google.script.run.withSuccessHandler(result=>{
     if(!result||!result.role)return;
-    if(['SUPERVISOR','ADMIN'].includes(result.role))nav.querySelectorAll('.gidi-manager-only').forEach(link=>link.classList.remove('hidden'));
+    if(['SUPERVISOR','ADMIN'].includes(result.role))nav.querySelectorAll('.gidi-manager-only').forEach(link=>{if(room||!link.classList.contains('gidi-current-editor'))link.classList.remove('hidden');});
     if(result.role==='ADMIN')nav.querySelectorAll('.gidi-admin-only').forEach(link=>link.classList.remove('hidden'));
   }).apiCurrentUser();
 })();
