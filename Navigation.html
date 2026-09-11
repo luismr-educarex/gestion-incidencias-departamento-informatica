@@ -14,8 +14,8 @@
 (()=>{
   const nav=document.currentScript.previousElementSibling.previousElementSibling;
   if(!nav||!nav.classList.contains('gidi-nav'))return;
-  const params=new URLSearchParams(location.search),mode=(params.get('modo')||'').toLowerCase(),room=(params.get('aula')||'').toUpperCase();
-  let page=mode||(!room?'panel':'aula');
+  const root=nav.closest('main'),params=new URLSearchParams(location.search),mode=(params.get('modo')||'').toLowerCase(),room=(root&&root.dataset.aula||params.get('aula')||'').toUpperCase();
+  let page=(root&&root.dataset.page||mode||(!room?'panel':'aula')).toLowerCase();
   if(page==='seguimiento')page='';
   const current=page&&nav.querySelector(`[data-page="${page}"]`);if(current)current.setAttribute('aria-current','page');
   if(room){const roomLink=nav.querySelector('.gidi-current-room'),editorLink=nav.querySelector('.gidi-current-editor');roomLink.href=`?aula=${encodeURIComponent(room)}`;roomLink.textContent=`Aula ${room}`;roomLink.classList.remove('hidden');editorLink.href=`?modo=editor&aula=${encodeURIComponent(room)}`;}

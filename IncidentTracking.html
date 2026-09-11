@@ -2,7 +2,7 @@
 <html>
 <head><base href="<?= baseUrl ?>" target="_top"><?!= include_('Styles'); ?><?!= include_('IncidentTrackingStyles'); ?></head>
 <body>
-<main id="tracking" data-id="<?= incidentId ?>">
+<main id="tracking" data-page="seguimiento" data-id="<?= incidentId ?>">
   <?!= include_('Navigation'); ?>
   <header class="topbar"><div><div class="eyebrow">GIDI · Seguimiento</div><h1 id="title">Incidencia <?= incidentId ?></h1></div><div class="header-actions"><span class="badge">V<?= appVersion ?></span></div></header>
   <div id="message" class="message hidden" aria-live="polite"></div>

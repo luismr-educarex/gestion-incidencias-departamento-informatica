@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head><base href="<?= baseUrl ?>" target="_top"><?!= include_('Styles'); ?><?!= include_('ClassroomsAdminStyles'); ?></head>
-<body><main>
+<body><main data-page="administrar-aulas">
   <?!= include_('Navigation'); ?>
   <header class="topbar"><div><div class="eyebrow">GIDI · Administración</div><h1>Gestión masiva de aulas</h1><p class="muted intro">Edita varios nombres, ubicaciones y estados antes de guardar todos los cambios de una vez.</p></div><div class="header-actions"><button id="saveAll" type="button" disabled>Guardar todos los cambios</button><span class="badge">V<?= appVersion ?></span></div></header>
   <div id="message" class="message hidden" aria-live="polite"></div>
